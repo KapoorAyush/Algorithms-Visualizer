@@ -1,0 +1,10 @@
+.array-container {
+    position: center;
+  }
+  
+  .array-bar {
+    width: 2px;
+    display: inline-block;
+    margin: 0 1px;
+    background: black;
+  }
