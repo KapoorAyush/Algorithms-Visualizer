@@ -21,11 +21,9 @@ class SortingComponent extends Component{
 
         const target = event.target;
         const value = target.value;
-        this.setState({
-          N: value
-        });
-        console.log(this.state.N)
-        this.generateArray()
+        this.setState({N: value},() => {
+            this.generateArray()
+          }); 
     }
     componentDidMount() {
         this.generateArray();
@@ -34,6 +32,7 @@ class SortingComponent extends Component{
     
     generateArray() {
         const array = [];
+
         for (let i = 0; i <this.state.N; i++) {
           array.push(Math.round(Math.random() * 1000));
         }
@@ -52,7 +51,6 @@ class SortingComponent extends Component{
                 if(arr[min]>arr[j]){
                     arrayBars[min].style.backgroundColor="black";
                     arrayBars[j].style.backgroundColor="gray";
-                    // let dele =await delay(1)
                     min=j;
                 }
                 else
@@ -71,7 +69,6 @@ class SortingComponent extends Component{
             let dele =await delay(0.5)
             item.style.backgroundColor="black"
         }
-        // this.setState({arr});
     }
 
     render(){
@@ -87,7 +84,7 @@ class SortingComponent extends Component{
             {this.state.array.map((val, i) => (
                 <div className="array-bar" key={i}
                 style={{
-                    width: `${500/this.state.N}px`,
+                    width: `${800/this.state.N}px`,
                     height: `${val*0.08}vh`,
                 }}>
                 </div>
