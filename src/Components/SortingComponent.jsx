@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import './SortingC.css';
-function delay(delayInms) {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(2);
-      }, delayInms);
-    });
-  }
+import SelectionSort from './SelectionSort';
+import 'bootstrap/dist/css/bootstrap.css';
+// Put any other imports below so that CSS from your
+// components takes precedence over default styles.
+import { Link } from 'react-router-dom';
+
 class SortingComponent extends Component{
     constructor(props){
         super(props);
@@ -39,37 +39,7 @@ class SortingComponent extends Component{
         this.setState({array:array});
 
     }
-    async selectionSort(){
-        const arrayBars = document.getElementsByClassName('array-bar');
-        var arr=this.state.array;
-        for (let i=0; i<this.state.N;i++){
-            var min=i;
-            for(let j=i+1;j<this.state.N;j++){
-                arrayBars[i].style.backgroundColor="red";
-                arrayBars[j].style.backgroundColor="cyan";
-                let dele =await delay(1)
-                if(arr[min]>arr[j]){
-                    arrayBars[min].style.backgroundColor="black";
-                    arrayBars[j].style.backgroundColor="gray";
-                    min=j;
-                }
-                else
-                    arrayBars[j].style.backgroundColor="black";
-                this.setState({array:arr});
-            }
-            if(i!=min){
-                let temp=arr[i];
-                arr[i]=arr[min];
-                arr[min]=temp;
-                arrayBars[min].style.backgroundColor="black";
-            }
-            arrayBars[i].style.backgroundColor="green"
-        }
-        for (let item of arrayBars) {
-            let dele =await delay(0.5)
-            item.style.backgroundColor="black"
-        }
-    }
+
 
     render(){
         return(
@@ -79,7 +49,7 @@ class SortingComponent extends Component{
             </div>
             <div className="array-container">
             <button onClick={() => this.generateArray()}>Generate New Array</button>
-            <button onClick={() => this.selectionSort()}>Selection Sort</button>
+            <Link class="btn btn-dark" to='/selectionSort'>Selection Sort</Link>
             <br/>
             {this.state.array.map((val, i) => (
                 <div className="array-bar" key={i}
@@ -89,6 +59,14 @@ class SortingComponent extends Component{
                 }}>
                 </div>
             ))}
+
+            <Switch>
+                <Route path="/selectionSort" component={()=> <SelectionSort arr={this.state.array} N={this.state.N}/>} />
+                {/* <Route exact path="/aboutus" component={() => <About leaders={this.props.leaders} /> } /> */}
+                
+                <Redirect to="/" />
+            </Switch>
+
             </div>
             </div>
 
