@@ -1,12 +1,22 @@
 import React, {Component} from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import './SortingC.css';
-import SelectionSort from './SelectionSort';
 import 'bootstrap/dist/css/bootstrap.css';
 // Put any other imports below so that CSS from your
 // components takes precedence over default styles.
-import { Link } from 'react-router-dom';
-
+function delay(delayInms) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(2);
+      }, delayInms);
+    });
+}
+function swap(arr,i,j){
+    let temp=arr[i];
+    arr[i]=arr[j];
+    arr[j]=temp;
+    return arr;
+}
 class SortingComponent extends Component{
     constructor(props){
         super(props);
@@ -39,7 +49,60 @@ class SortingComponent extends Component{
         this.setState({array:array});
 
     }
+    async selectionSort(){
+        const arrayBars = document.getElementsByClassName('array-bar');
+        var arr=this.state.array;
+        for (let i=0; i<this.state.N;i++){
+            var min=i;
+            for(let j=i+1;j<this.state.N;j++){
+                arrayBars[i].style.backgroundColor="red";
+                arrayBars[j].style.backgroundColor="cyan";
+                let dele =await delay(1)
+                if(arr[min]>arr[j]){
+                    arrayBars[min].style.backgroundColor="black";
+                    arrayBars[j].style.backgroundColor="gray";
+                    min=j;
+                }
+                else
+                    arrayBars[j].style.backgroundColor="black";
+                this.setState({array:arr});
+            }
+            if(i!=min){
+                arr=swap(arr,i,min)
+                arrayBars[min].style.backgroundColor="black";
+            }
+            arrayBars[i].style.backgroundColor="green"
+        }
+        for (let item of arrayBars) {
+            let dele =await delay(0.5)
+            item.style.backgroundColor="black"
+        }
+    }
 
+    async bubbleSort(){
+        const arrayBars = document.getElementsByClassName('array-bar');
+        var arr=this.state.array;
+        for (let i=0; i<this.state.N;i++){
+            for (let j=0; j<this.state.N-i-1;j++){
+                arrayBars[j].style.backgroundColor="red";
+                arrayBars[j+1].style.backgroundColor="red";
+                let dele =await delay(5);
+                if(arr[j]>arr[j+1]){
+                    arrayBars[j].style.backgroundColor="cyan";
+                    let dele =await delay(5);
+                    arr=swap(arr,j,j+1);
+                    this.setState({array:arr});
+                }
+                arrayBars[j].style.backgroundColor="black";
+                arrayBars[j+1].style.backgroundColor="black";
+            }
+            arrayBars[this.state.N-i-1].style.backgroundColor="green"
+        }
+        for (let item of arrayBars) {
+            let dele =await delay(0.5)
+            item.style.backgroundColor="black"
+        }
+    }
 
     render(){
         return(
@@ -49,7 +112,8 @@ class SortingComponent extends Component{
             </div>
             <div className="array-container">
             <button onClick={() => this.generateArray()}>Generate New Array</button>
-            <Link class="btn btn-dark" to='/selectionSort'>Selection Sort</Link>
+            <a class="btn btn-dark" onClick={() => this.selectionSort()}>Selection Sort</a>
+            <a class="btn btn-dark" onClick={() => this.bubbleSort()}>Bubble Sort</a>
             <br/>
             {this.state.array.map((val, i) => (
                 <div className="array-bar" key={i}
@@ -60,12 +124,7 @@ class SortingComponent extends Component{
                 </div>
             ))}
 
-            <Switch>
-                <Route path="/selectionSort" component={()=> <SelectionSort arr={this.state.array} N={this.state.N}/>} />
-                {/* <Route exact path="/aboutus" component={() => <About leaders={this.props.leaders} /> } /> */}
-                
-                <Redirect to="/" />
-            </Switch>
+
 
             </div>
             </div>
