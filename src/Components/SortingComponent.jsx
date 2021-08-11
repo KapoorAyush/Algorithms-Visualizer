@@ -22,7 +22,7 @@ class SortingComponent extends Component{
         super(props);
         this.state={
             array:[],
-            N:100
+            N:50
         }
         this.handleInputChange = this.handleInputChange.bind(this);
 
@@ -104,6 +104,110 @@ class SortingComponent extends Component{
         }
     }
 
+    async bubbleSort(){
+        const arrayBars = document.getElementsByClassName('array-bar');
+        var arr=this.state.array;
+        for (let i=0; i<this.state.N;i++){
+            for (let j=0; j<this.state.N-i-1;j++){
+                arrayBars[j].style.backgroundColor="red";
+                arrayBars[j+1].style.backgroundColor="red";
+                let dele =await delay(5);
+                if(arr[j]>arr[j+1]){
+                    arrayBars[j].style.backgroundColor="cyan";
+                    let dele =await delay(5);
+                    arr=swap(arr,j,j+1);
+                    this.setState({array:arr});
+                }
+                arrayBars[j].style.backgroundColor="black";
+                arrayBars[j+1].style.backgroundColor="black";
+            }
+            arrayBars[this.state.N-i-1].style.backgroundColor="green"
+        }
+        for (let item of arrayBars) {
+            let dele =await delay(0.5)
+            item.style.backgroundColor="black"
+        }
+    }
+    
+    async mergeSort(arr,l,r){
+        const arrayBars = document.getElementsByClassName('array-bar');
+        var n=arr.length;
+        if(n>1){
+            if(l>=r){
+                return;
+            }
+            var m =l+ parseInt((r-l)/2);
+            arrayBars[m].style.backgroundColor="cyan";
+            // let dele =await delay(0.5);
+            this.mergeSort(arr,l,m);
+            this.mergeSort(arr,m+1,r);
+            this.merge(arr,l,m,r);
+            arrayBars[m].style.backgroundColor="black";
+        }    
+    }
+
+    async merge(arr, l, m, r)
+    {
+        let dele =await delay(100);
+        var n1 = m - l + 1;
+        var n2 = r - m;
+    
+        // Create temp arrays
+        var L = new Array(n1);
+        var R = new Array(n2);
+    
+        // Copy data to temp arrays L[] and R[]
+        for (var i = 0; i < n1; i++)
+            L[i] = arr[l + i];
+        for (var j = 0; j < n2; j++)
+            R[j] = arr[m + 1 + j];
+    
+        // Merge the temp arrays back into arr[l..r]
+    
+        // Initial index of first subarray
+        var i = 0;
+    
+        // Initial index of second subarray
+        var j = 0;
+    
+        // Initial index of merged subarray
+        var k = l;
+    
+        while (i < n1 && j < n2) {
+            if (L[i] <= R[j]) {
+                arr[k] = L[i];
+                i++;
+            }
+            else {
+                arr[k] = R[j];
+                j++;
+            }
+            // let dele =await delay(0.5);
+            this.setState({array:arr});
+            k++;
+        }
+    
+        // Copy the remaining elements of
+        // L[], if there are any
+        while (i < n1) {
+            arr[k] = L[i];
+            i++;
+            k++;
+            // let dele =await delay(0.5);
+            this.setState({array:arr});
+        }
+    
+        // Copy the remaining elements of
+        // R[], if there are any
+        while (j < n2) {
+            arr[k] = R[j];
+            j++;
+            k++;
+            // let dele =await delay(0.5);
+            this.setState({array:arr});
+        }
+    }
+
     render(){
         return(
             <div> 
@@ -114,6 +218,8 @@ class SortingComponent extends Component{
             <button onClick={() => this.generateArray()}>Generate New Array</button>
             <a class="btn btn-dark" onClick={() => this.selectionSort()}>Selection Sort</a>
             <a class="btn btn-dark" onClick={() => this.bubbleSort()}>Bubble Sort</a>
+            <a class="btn btn-dark" onClick={() => this.mergeSort(this.state.array,0,this.state.N-1)}>Merge Sort</a>
+          
             <br/>
             {this.state.array.map((val, i) => (
                 <div className="array-bar" key={i}
@@ -123,9 +229,6 @@ class SortingComponent extends Component{
                 }}>
                 </div>
             ))}
-
-
-
             </div>
             </div>
 
