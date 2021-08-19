@@ -111,10 +111,10 @@ class SortingComponent extends Component{
             for (let j=0; j<this.state.N-i-1;j++){
                 arrayBars[j].style.backgroundColor="red";
                 arrayBars[j+1].style.backgroundColor="red";
-                let dele =await delay(5);
+                let dele =await delay(20);
                 if(arr[j]>arr[j+1]){
                     arrayBars[j].style.backgroundColor="cyan";
-                    let dele =await delay(5);
+                    let dele =await delay(20);
                     arr=swap(arr,j,j+1);
                     this.setState({array:arr});
                 }
@@ -123,10 +123,7 @@ class SortingComponent extends Component{
             }
             arrayBars[this.state.N-i-1].style.backgroundColor="green"
         }
-        for (let item of arrayBars) {
-            let dele =await delay(0.5)
-            item.style.backgroundColor="black"
-        }
+
     }
     
     async mergeSort(arr,l,r){
@@ -208,6 +205,29 @@ class SortingComponent extends Component{
         }
     }
 
+    async insertionSort(){
+        const arrayBars = document.getElementsByClassName('array-bar');
+        var arr=this.state.array;
+        var n=this.state.N;
+        for(var i=1;i<n;i++){
+            var ti=i;
+            for(var j=ti-1;j>=0;j--){
+                arrayBars[ti].style.backgroundColor="cyan";
+                let dele =await delay(10);
+                if(arr[ti]<arr[j]){
+                    arr=swap(arr,ti,j);
+                    arrayBars[ti].style.backgroundColor="black";
+                    ti=j;
+                    arrayBars[ti].style.backgroundColor="black";
+                    this.setState({array:arr});
+                }
+                else   
+                    break;
+            }
+            arrayBars[ti].style.backgroundColor="black";
+        }
+    }
+
     render(){
         return(
             <div> 
@@ -219,7 +239,7 @@ class SortingComponent extends Component{
             <a class="btn btn-dark" onClick={() => this.selectionSort()}>Selection Sort</a>
             <a class="btn btn-dark" onClick={() => this.bubbleSort()}>Bubble Sort</a>
             <a class="btn btn-dark" onClick={() => this.mergeSort(this.state.array,0,this.state.N-1)}>Merge Sort</a>
-          
+            <a class="btn btn-dark" onClick={() => this.insertionSort()}>Insertion Sort</a>          
             <br/>
             {this.state.array.map((val, i) => (
                 <div className="array-bar" key={i}
