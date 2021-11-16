@@ -104,27 +104,6 @@ class SortingComponent extends Component{
         }
     }
 
-    async bubbleSort(){
-        const arrayBars = document.getElementsByClassName('array-bar');
-        var arr=this.state.array;
-        for (let i=0; i<this.state.N;i++){
-            for (let j=0; j<this.state.N-i-1;j++){
-                arrayBars[j].style.backgroundColor="red";
-                arrayBars[j+1].style.backgroundColor="red";
-                let dele =await delay(20);
-                if(arr[j]>arr[j+1]){
-                    arrayBars[j].style.backgroundColor="cyan";
-                    let dele =await delay(20);
-                    arr=swap(arr,j,j+1);
-                    this.setState({array:arr});
-                }
-                arrayBars[j].style.backgroundColor="black";
-                arrayBars[j+1].style.backgroundColor="black";
-            }
-            arrayBars[this.state.N-i-1].style.backgroundColor="green"
-        }
-
-    }
     
     async mergeSort(arr,l,r){
         const arrayBars = document.getElementsByClassName('array-bar');
