@@ -211,14 +211,16 @@ class SortingComponent extends Component{
         return(
             <div> 
             <div>
+                <button class="btn btn-primary mx-2" onClick={() => this.generateArray()}>Generate New Array</button>
                 <input type="range" id="N" name="N" min="20" max="200" step="1" value={this.state.N} onChange={this.handleInputChange}/>
+            
             </div>
             <div className="array-container">
-            <button onClick={() => this.generateArray()}>Generate New Array</button>
-            <a class="btn btn-dark" onClick={() => this.selectionSort()}>Selection Sort</a>
-            <a class="btn btn-dark" onClick={() => this.bubbleSort()}>Bubble Sort</a>
-            <a class="btn btn-dark" onClick={() => this.mergeSort(this.state.array,0,this.state.N-1)}>Merge Sort</a>
-            <a class="btn btn-dark" onClick={() => this.insertionSort()}>Insertion Sort</a>          
+
+            <a class="btn btn-dark m-2" onClick={() => this.selectionSort()}>Selection Sort</a>
+            <a class="btn btn-dark m-2" onClick={() => this.bubbleSort()}>Bubble Sort</a>
+            <a class="btn btn-dark m-2" onClick={() => this.mergeSort(this.state.array,0,this.state.N-1)}>Merge Sort</a>
+            <a class="btn btn-dark m-2" onClick={() => this.insertionSort()}>Insertion Sort</a>          
             <br/>
             {this.state.array.map((val, i) => (
                 <div className="array-bar" key={i}
