@@ -7,12 +7,12 @@ class Home extends Component{
     render(){
         return(
         <div>
-            <Link to="/Algorithms-Visualizer/SortingV">
+            <Link to={process.env.PUBLIC_URL +"/SortingV"}>
                 Sorting Visualizer
             </Link>
             <Switch>
-                <Route path="/Algorithms-Visualizer" component={App} exact />
-                <Route path="/Algorithms-Visualizer/SortingV" component={SortingComponent} />
+                
+                <Route path={process.env.PUBLIC_URL + "/SortingV"} component={SortingComponent} />
                 {/* <Route exact path="/graphV" render={() => {window.location.href="https://kapoorayush.github.io/BFS-DFS-with-GUI/"}} /> */}
                 {/* <Redirect to="/" /> */}
             </Switch>
